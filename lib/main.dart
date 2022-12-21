@@ -1,7 +1,10 @@
 import 'package:firebase_example/auth/login/login_view.dart';
+import 'package:firebase_example/di.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await DenpendencyInjection.init();
   runApp(const MyApp());
 }
 

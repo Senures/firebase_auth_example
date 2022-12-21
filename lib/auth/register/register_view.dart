@@ -48,7 +48,6 @@ class RegisterView extends StatelessWidget {
                         borderRadius: BorderRadius.all(Radius.circular(10.0)),
                         borderSide: BorderSide(color: Color(0xff1ab65c)),
                       ),
-                      //beyaz renkli border
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10.0)),
                         borderSide: BorderSide(color: Colors.white),
