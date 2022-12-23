@@ -1,6 +1,7 @@
 import 'package:firebase_example/modules/auth/register/register_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 
 import '../../../routes/routes.dart';
 
@@ -58,25 +59,31 @@ class RegisterView extends GetView<RegisterController> {
                 height: 25,
               ),
               TextFormField(
-                  obscureText: true,
+                  obscureText: controller.obscureText,
                   showCursor: false,
                   style: const TextStyle(color: Colors.white),
                   controller: controller.passwordcontroller,
-                  decoration: const InputDecoration(
-                      suffixIcon: Icon(
-                        Icons.remove_red_eye,
+                  decoration: InputDecoration(
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          print("tıklandııııııııııııııııııııııııııııııı");
+                          controller.showPassword();
+                        },
+                        icon: controller.isShow
+                            ? const Icon(Icons.visibility_off_rounded)
+                            : const Icon(Icons.visibility),
                         color: Colors.white,
                       ),
-                      prefixIcon: Icon(
+                      prefixIcon: const Icon(
                         Icons.key,
                         color: Colors.white,
                       ),
-                      border: OutlineInputBorder(
+                      border: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10.0)),
                         borderSide: BorderSide(color: Color(0xff1ab65c)),
                       ),
                       //beyaz renkli border
-                      enabledBorder: OutlineInputBorder(
+                      enabledBorder: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10.0)),
                         borderSide: BorderSide(color: Colors.white),
                       ))),

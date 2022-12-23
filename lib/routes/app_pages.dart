@@ -14,5 +14,9 @@ class AppPages {
         name: Routes.REGISTER,
         page: () => RegisterView(),
         binding: RegisterBinding()),
+    GetPage(
+        name: Routes.REGISTER,
+        page: () => RegisterView(),
+        binding: RegisterBinding()),
   ];
 }
