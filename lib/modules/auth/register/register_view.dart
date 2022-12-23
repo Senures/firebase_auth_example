@@ -1,12 +1,14 @@
+import 'package:firebase_example/modules/auth/register/register_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class RegisterView extends StatelessWidget {
+import '../../../routes/routes.dart';
+
+class RegisterView extends GetView<RegisterController> {
   const RegisterView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController? emailcontroller;
-    TextEditingController? passwordcontroller;
     return Scaffold(
       backgroundColor: const Color(0xff181a20),
       /* appBar: AppBar(
@@ -38,7 +40,7 @@ class RegisterView extends StatelessWidget {
               TextFormField(
                   showCursor: false,
                   style: const TextStyle(color: Colors.white),
-                  controller: emailcontroller,
+                  controller: controller.emailcontroller,
                   decoration: const InputDecoration(
                       prefixIcon: Icon(
                         Icons.email,
@@ -56,9 +58,10 @@ class RegisterView extends StatelessWidget {
                 height: 25,
               ),
               TextFormField(
+                  obscureText: true,
                   showCursor: false,
                   style: const TextStyle(color: Colors.white),
-                  controller: passwordcontroller,
+                  controller: controller.passwordcontroller,
                   decoration: const InputDecoration(
                       suffixIcon: Icon(
                         Icons.remove_red_eye,
@@ -103,22 +106,29 @@ class RegisterView extends StatelessWidget {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                child: Container(
-                    alignment: Alignment.center,
-                    width: 300,
-                    height: 45,
-                    decoration: BoxDecoration(
-                        color: const Color(0xff1ab65c),
-                        borderRadius: BorderRadius.circular(20)),
-                    child: const Text(
-                      "Sign in",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold),
-                    )),
+              InkWell(
+                onTap: () {
+                  controller.service.createUser(controller.emailcontroller.text,
+                      controller.passwordcontroller.text);
+                  //  Get.toNamed(Routes.LOGIN);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  child: Container(
+                      alignment: Alignment.center,
+                      width: 300,
+                      height: 45,
+                      decoration: BoxDecoration(
+                          color: const Color(0xff1ab65c),
+                          borderRadius: BorderRadius.circular(20)),
+                      child: const Text(
+                        "Sign in",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold),
+                      )),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 25),
@@ -172,7 +182,7 @@ class RegisterView extends StatelessWidget {
                     ),
                     TextButton(
                         onPressed: () {
-                          Navigator.pop(context);
+                          Get.back();
                         },
                         child: const Text(
                           "Sign in",

@@ -1,13 +1,16 @@
-import 'package:firebase_example/auth/register/register_view.dart';
+import 'package:firebase_example/modules/auth/login/login_controller.dart';
+import 'package:firebase_example/modules/auth/register/register_bindings.dart';
+import 'package:firebase_example/modules/auth/register/register_view.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class LoginView extends StatelessWidget {
+import '../../../routes/routes.dart';
+
+class LoginView extends GetView<LoginController> {
   const LoginView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController? emailcontroller;
-    TextEditingController? passwordcontroller;
     return Scaffold(
       backgroundColor: const Color(0xff181a20),
       /* appBar: AppBar(
@@ -39,7 +42,7 @@ class LoginView extends StatelessWidget {
               TextFormField(
                   showCursor: false,
                   style: const TextStyle(color: Colors.white),
-                  controller: emailcontroller,
+                  controller: controller.emailcontroller,
                   decoration: const InputDecoration(
                       prefixIcon: Icon(
                         Icons.email,
@@ -60,7 +63,7 @@ class LoginView extends StatelessWidget {
               TextFormField(
                   showCursor: false,
                   style: const TextStyle(color: Colors.white),
-                  controller: passwordcontroller,
+                  controller: controller.passwordcontroller,
                   decoration: const InputDecoration(
                       suffixIcon: Icon(
                         Icons.remove_red_eye,
@@ -105,22 +108,28 @@ class LoginView extends StatelessWidget {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                child: Container(
-                    alignment: Alignment.center,
-                    width: 300,
-                    height: 45,
-                    decoration: BoxDecoration(
-                        color: const Color(0xff1ab65c),
-                        borderRadius: BorderRadius.circular(20)),
-                    child: const Text(
-                      "Sign in",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold),
-                    )),
+              InkWell(
+                onTap: () {
+                  controller.service.account(controller.emailcontroller.text,
+                      controller.passwordcontroller.text);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  child: Container(
+                      alignment: Alignment.center,
+                      width: 300,
+                      height: 45,
+                      decoration: BoxDecoration(
+                          color: const Color(0xff1ab65c),
+                          borderRadius: BorderRadius.circular(20)),
+                      child: const Text(
+                        "Sign in",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold),
+                      )),
+                ),
               ),
               const Text(
                 "Forgot the password?",
@@ -181,13 +190,8 @@ class LoginView extends StatelessWidget {
                     ),
                     TextButton(
                         onPressed: () {
-                          Navigator.push<void>(
-                            context,
-                            MaterialPageRoute<void>(
-                              builder: (BuildContext context) =>
-                                  const RegisterView(),
-                            ),
-                          );
+                          Get.toNamed(Routes.REGISTER);
+                          //Get.to(RegisterView(), binding: RegisterBinding());
                         },
                         child: const Text(
                           "Sign up",
