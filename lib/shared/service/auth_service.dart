@@ -1,26 +1,27 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_example/shared/service/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../routes/routes.dart';
 
 class AuthService extends GetxService {
+  late UserCredential credential;
   Future<AuthService> init() async {
     //createUser();
     return this;
   }
 
   createUser(String email, String password) async {
+    FireStoreService fireStoreService = FireStoreService();
     try {
-      final credential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-      if (credential == null) {
-        print("kullanıcı oluşturulmadı");
-      } else {
-        Get.toNamed(Routes.LOGIN);
+      if (credential.user != null) {
+        //oluşturulan kullanıcı boş değilse users collectiona atsın
+        fireStoreService.createUserCollection(credential);
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -42,9 +43,10 @@ class AuthService extends GetxService {
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
       print("Giriş yapıldı ${credential.user?.email}");
+
+      Get.toNamed(Routes.HOME);
       Get.snackbar("CORRECT", 'Tebrikler giriş başarılı',
           snackPosition: SnackPosition.BOTTOM, colorText: Colors.white);
-      Get.toNamed(Routes.HOME);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
