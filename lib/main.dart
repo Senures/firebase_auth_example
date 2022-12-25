@@ -1,14 +1,21 @@
-import 'package:firebase_example/modules/auth/login/login_bindings.dart';
-import 'package:firebase_example/modules/auth/login/login_view.dart';
+import 'dart:developer';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_example/di.dart';
+import 'package:firebase_example/shared/init/sharredpref_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'routes/app_pages.dart';
+
+User? auth = FirebaseAuth.instance.currentUser;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await DenpendencyInjection.init();
+  Pref.init();
+
   runApp(const MyApp());
 }
 
@@ -19,7 +26,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: Routes.LOGIN,
+      initialRoute: auth == null ? Routes.LOGIN : Routes.HOME,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,

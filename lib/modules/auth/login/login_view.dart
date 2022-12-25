@@ -109,6 +109,7 @@ class LoginView extends GetView<LoginController> {
                 ),
               ),
               InkWell(
+                
                 onTap: () {
                   controller.service.account(controller.emailcontroller.text,
                       controller.passwordcontroller.text);

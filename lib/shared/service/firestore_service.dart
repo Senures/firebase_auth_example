@@ -20,16 +20,25 @@ class FireStoreService extends GetxService {
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_example/routes/app_pages.dart';
+import 'package:firebase_example/shared/init/sharredpref_manager.dart';
 import 'package:get/get.dart';
 
+import '../../main.dart';
+
 class FireStoreService extends GetxService {
-  createUserCollection(UserCredential credential) async {
+  createUserCollection(UserCredential credential, String? role) async {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
     await users.doc(credential.user!.uid).set({
       "id": credential.user!.uid,
       "mail": credential.user!.email,
-      "role": "user",
+      "role": role ?? "user",
+      "isEditor": role == "editor" ? true : false
     });
+
+    // pref?.setBool("isEditor", role == "editor" ? true : false);
+
+    Pref.setBool("isEditor", role == "editor" ? true : false);
+
     Get.toNamed(Routes.LOGIN);
   }
 }

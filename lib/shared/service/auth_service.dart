@@ -12,7 +12,7 @@ class AuthService extends GetxService {
     return this;
   }
 
-  createUser(String email, String password) async {
+  createUser(String email, String password, String? role) async {
     FireStoreService fireStoreService = FireStoreService();
     try {
       credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -21,7 +21,7 @@ class AuthService extends GetxService {
       );
       if (credential.user != null) {
         //oluşturulan kullanıcı boş değilse users collectiona atsın
-        fireStoreService.createUserCollection(credential);
+        fireStoreService.createUserCollection(credential, role);
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -45,8 +45,6 @@ class AuthService extends GetxService {
       print("Giriş yapıldı ${credential.user?.email}");
 
       Get.toNamed(Routes.HOME);
-      Get.snackbar("CORRECT", 'Tebrikler giriş başarılı',
-          snackPosition: SnackPosition.BOTTOM, colorText: Colors.white);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');

@@ -1,9 +1,6 @@
 import 'package:firebase_example/modules/auth/register/register_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
-
-import '../../../routes/routes.dart';
 
 class RegisterView extends GetView<RegisterController> {
   const RegisterView({super.key});
@@ -12,9 +9,6 @@ class RegisterView extends GetView<RegisterController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xff181a20),
-      /* appBar: AppBar(
-   
-      ), */
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: SingleChildScrollView(
@@ -117,7 +111,7 @@ class RegisterView extends GetView<RegisterController> {
                   Obx(
                     () => IconButton(
                         onPressed: () {
-                          controller.getReferanceCodes();
+                          controller.userRoles();
                         },
                         icon: Icon(
                           Icons.check_circle_outline_sharp,
@@ -135,9 +129,7 @@ class RegisterView extends GetView<RegisterController> {
               MaterialButton(
                 onPressed: () {
                   controller.service.createUser(controller.emailcontroller.text,
-                      controller.passwordcontroller.text);
-                  /*   controller.service.createUser(controller.emailcontroller.text,
-                      controller.passwordcontroller.text); */
+                      controller.passwordcontroller.text, controller.userType);
                 },
                 minWidth: 300,
                 height: 45,
