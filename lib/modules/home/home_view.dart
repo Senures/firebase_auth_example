@@ -87,7 +87,7 @@ class HomeView extends GetView<HomeController> {
                 height: 20,
               ),
               Container(
-                height: 38,
+                height: 40,
                 //color: Colors.red,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
@@ -98,13 +98,12 @@ class HomeView extends GetView<HomeController> {
                       width: 70,
                       margin: const EdgeInsets.symmetric(horizontal: 6),
                       decoration: BoxDecoration(
-                        color: const Color(0xff044C5D),
-                        borderRadius: BorderRadius.circular(7),
-                      ),
-                      child: const Text(
-                        "Populer",
-                        style: TextStyle(color: Colors.white),
-                      ),
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(
+                            color: Colors.black,
+                          )),
+                      child: const Text("Populer"),
                     );
                   },
                 ),
