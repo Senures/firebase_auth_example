@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: auth == null ? Routes.LOGIN : Routes.HOME,
+      initialRoute: /* auth == null ? Routes.LOGIN : */ Routes.HOME,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
