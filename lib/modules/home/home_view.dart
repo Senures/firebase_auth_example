@@ -1,3 +1,4 @@
+import 'package:firebase_example/modules/create_blog/create_blog.dart';
 import 'package:firebase_example/modules/detail/detail_view.dart';
 import 'package:firebase_example/modules/home/home_controller.dart';
 import 'package:flutter/material.dart';
@@ -211,8 +212,10 @@ class HomeView extends GetView<HomeController> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color(0XFFFF6D3E),
-        onPressed: () {},
-        child: FaIcon(FontAwesomeIcons.pencil),
+        onPressed: () {
+          Get.to(const CreateBlogView());
+        },
+        child: const FaIcon(FontAwesomeIcons.pencil),
       ),
     );
   }
