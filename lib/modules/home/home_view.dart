@@ -1,222 +1,220 @@
+import 'dart:developer';
+
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:firebase_example/modules/create_blog/create_blog.dart';
-import 'package:firebase_example/modules/detail/detail_view.dart';
 import 'package:firebase_example/modules/home/home_controller.dart';
+import 'package:firebase_example/shared/init/sharredpref_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+
 import 'package:google_fonts/google_fonts.dart';
+
+import '../../routes/app_pages.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    controller.randomlist.shuffle(); //shuffle over here
-    controller.imagePath =
-        controller.randomlist[0]; //store random image over here
     return Scaffold(
+      backgroundColor: const Color(0xff02102A),
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        leading: const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 6),
-          child: FaIcon(
-            FontAwesomeIcons.bars,
-            color: Colors.black,
-            size: 27,
+        elevation: 0,
+        backgroundColor: const Color(0xff02102A),
+        leading: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Image.network(
+            "https://cdn-icons-png.flaticon.com/512/3018/3018445.png",
+            width: 40,
+            color: Colors.white,
+          ),
+        ),
+        centerTitle: true,
+        title: Container(
+          //color: Colors.red,
+          width: 80,
+          height: 60,
+          child: FittedBox(
+            fit: BoxFit.fill,
+            child: Switch(
+              value: true,
+              onChanged: (value) {},
+              activeTrackColor: Colors.grey.shade200,
+              activeColor: Colors.white,
+            ),
           ),
         ),
         actions: [
-          Container(
-            // clipBehavior: Clip.antiAlias,
-            margin: const EdgeInsets.only(right: 15, bottom: 10),
-            //padding: EdgeInsets.all(20),
-
-            width: 42.0,
-            height: 42.0,
-            decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.grey,
-                border: Border.all(color: const Color(0xff044C5D), width: 4)),
-            child: const CircleAvatar(
-              backgroundColor: Color(0xff044C5D),
-              backgroundImage: NetworkImage(
-                  "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8d29tZW58ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60"),
+          InkWell(
+            onTap: () {
+              FirebaseAuth.instance.signOut();
+              Pref.remove("isEditor");
+              Get.offAndToNamed(Routes.LOGIN);
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(14.0),
+              child: FaIcon(
+                FontAwesomeIcons.magnifyingGlass,
+                color: Colors.grey.shade300,
+              ),
             ),
           )
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: SingleChildScrollView(
-          child: Column(
-            //  mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 70,
-                //color: Colors.amber,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  // mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      "Blog of the week",
-                      style: GoogleFonts.oswald(
-                          color: const Color(0xff323232),
-                          fontSize: 35,
-                          fontWeight: FontWeight.w700),
-                    ),
-                    Container(
-                      width: 110,
-                      height: 5,
-                      color: const Color(0XFFFF6D3E),
-                    ),
-                  ],
+      body: Column(
+        children: [
+          Container(
+            // color: Colors.amber,
+            height: 75,
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  "Discover",
+                  style: GoogleFonts.asap(
+                      color: Colors.white,
+                      fontSize: 30,
+                      fontWeight: FontWeight.w600),
                 ),
-              ),
-              Container(
-                clipBehavior: Clip.antiAliasWithSaveLayer,
-                width: MediaQuery.of(context).size.width * 0.9,
-                height: MediaQuery.of(context).size.height * 0.18,
-                decoration: BoxDecoration(
-                    color: const Color(0xffE6EDEF),
-                    borderRadius: BorderRadius.circular(10)),
-                child: Image.network(controller.imagePath!, fit: BoxFit.cover),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Container(
-                height: 40,
-                //color: Colors.red,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 6,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      alignment: Alignment.center,
-                      width: 70,
-                      margin: const EdgeInsets.symmetric(horizontal: 6),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(5),
-                          border: Border.all(
-                            color: Colors.black,
-                          )),
-                      child: const Text("Populer"),
-                    );
-                  },
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: 5,
+                Text(
+                  "New articles",
+                  style: GoogleFonts.asap(
+                      color: Colors.white30,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400),
+                )
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: Container(
+              height: 45,
+              //color: Colors.red,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: 7,
                 itemBuilder: (context, index) {
                   return InkWell(
                     onTap: () {
-                      Get.to(DetailView());
+                      controller.setIndexColor(index);
                     },
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(vertical: 10),
-                      width: 200,
-                      height: 130,
-                      /*     decoration: BoxDecoration(
-                          color: Colors.white,
-                          /*  boxShadow: [
-                            BoxShadow(
-                                color: Colors.grey.shade300,
-                                blurRadius: 2,
-                                spreadRadius: 2),
-                          ], */
-                        ), */
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            clipBehavior: Clip.antiAliasWithSaveLayer,
-                            width: 130,
-                            height: 120,
-                            decoration: BoxDecoration(
-                                color: Colors.red,
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Image.network(
-                              "https://images.unsplash.com/photo-1484415063229-3d6335668531?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTUwfHxibG9nfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
-                              fit: BoxFit.cover,
-                            ),
+                    child: Obx(
+                      () => Container(
+                        alignment: Alignment.center,
+                        width: 100,
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                        ),
+                        decoration: BoxDecoration(
+                            color: controller.currentIndex == index
+                                ? Colors.white
+                                : Colors.transparent,
+                            borderRadius: BorderRadius.circular(25),
+                            border: Border.all(color: Colors.white38)),
+                        child: Obx(
+                          () => Text(
+                            "Comedy",
+                            style: TextStyle(
+                                color: controller.currentIndex == index
+                                    ? const Color(0xff02102A)
+                                    : Colors.white,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500),
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Container(
-                                alignment: Alignment.center,
-                                //  width: 50,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 5),
-                                height: 25,
-                                decoration: BoxDecoration(
-                                    color: Colors.grey.shade300,
-                                    borderRadius: BorderRadius.circular(20)),
-                                child: const Text(
-                                  "Design",
-                                  style: TextStyle(fontSize: 13),
-                                ),
-                              ),
-                              Text(
-                                "Building a succesful\nDesign System",
-                                style: GoogleFonts.oswald(
-                                    color: Colors.black,
-                                    fontSize: 19,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              Container(
-                                width: 90,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: const [
-                                    FaIcon(
-                                      FontAwesomeIcons.circle,
-                                      size: 8,
-                                      color: Colors.black,
-                                    ),
-                                    Text("5 min read")
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: const [
-                              FaIcon(FontAwesomeIcons.ellipsisVertical),
-                              FaIcon(
-                                FontAwesomeIcons.solidBookmark,
-                                color: Color(0xff044C5D),
-                              ),
-                            ],
-                          )
-                        ],
+                        ),
                       ),
                     ),
                   );
                 },
-              )
-            ],
+              ),
+            ),
           ),
-        ),
+          Expanded(
+            child: MasonryGridView.count(
+              primary: false,
+              shrinkWrap: true,
+              crossAxisCount: 2,
+              mainAxisSpacing: 4,
+              crossAxisSpacing: 4,
+              itemBuilder: (context, index) {
+                return InkWell(
+                  onTap: () {
+                    log(((index % 5 + 1) * 100).toString());
+                  },
+                  child: Tile(
+                    index: index,
+                    extent: (index % 3 + 2) * 100 > 300
+                        ? 250
+                        : (index % 3 + 2) * 100,
+                  ),
+                );
+              },
+            ),
+          )
+        ],
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color(0XFFFF6D3E),
-        onPressed: () {
-          Get.to(const CreateBlogView());
-        },
-        child: const FaIcon(FontAwesomeIcons.pencil),
+      floatingActionButton: Pref.getBool("isEditor") == true
+          ? FloatingActionButton(
+              backgroundColor: const Color(0xff02102A),
+              child: const FaIcon(FontAwesomeIcons.pen),
+              onPressed: () {
+                Get.to(CreateBlogView());
+              },
+            )
+          : const SizedBox(),
+    );
+  }
+}
+
+class Tile extends StatelessWidget {
+  const Tile({
+    Key? key,
+    required this.index,
+    this.extent,
+    this.backgroundColor,
+    this.bottomSpace,
+  }) : super(key: key);
+
+  final int index;
+  final double? extent;
+  final double? bottomSpace;
+  final Color? backgroundColor;
+
+  @override
+  Widget build(BuildContext context) {
+    final child = Container(
+      color: backgroundColor ?? Colors.red,
+      height: extent,
+      child: Column(
+        children: [
+          Expanded(
+            child: Image.network(
+              "https://images.unsplash.com/photo-1538370965046-79c0d6907d47?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDR8fHBsYW5ldHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
+              fit: BoxFit.cover,
+            ),
+          ),
+          Text("TARİH"),
+        ],
       ),
+    );
+
+    if (bottomSpace == null) {
+      return child;
+    }
+
+    return Column(
+      children: [
+        Expanded(child: child),
+        Container(
+          height: bottomSpace,
+          color: Colors.green,
+        )
+      ],
     );
   }
 }

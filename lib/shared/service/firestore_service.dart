@@ -35,10 +35,6 @@ class FireStoreService extends GetxService {
       "isEditor": role == "editor" ? true : false
     });
 
-    // pref?.setBool("isEditor", role == "editor" ? true : false);
-
-    Pref.setBool("isEditor", role == "editor" ? true : false);
-
     Get.toNamed(Routes.LOGIN);
   }
 }

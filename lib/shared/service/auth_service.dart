@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_example/shared/service/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../routes/routes.dart';
+import '../init/sharredpref_manager.dart';
 
 class AuthService extends GetxService {
   late UserCredential credential;
@@ -44,7 +46,14 @@ class AuthService extends GetxService {
           .signInWithEmailAndPassword(email: email, password: password);
       print("Giriş yapıldı ${credential.user?.email}");
 
-      Get.toNamed(Routes.HOME);
+      var data = await FirebaseFirestore.instance
+          .collection("users")
+          .doc(credential.user!.uid)
+          .get();
+
+      Pref.setBool("isEditor", data.data()!["isEditor"]);
+
+      Get.offAndToNamed(Routes.HOME);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
