@@ -11,11 +11,16 @@ class AppPages {
   static const INITIAL = Routes.LOGIN;
   static final routes = [
     GetPage(
-        name: Routes.LOGIN, page: () => LoginView(), binding: LoginBinding()),
+        name: Routes.LOGIN,
+        page: () => const LoginView(),
+        binding: LoginBinding()),
     GetPage(
         name: Routes.REGISTER,
-        page: () => RegisterView(),
+        page: () => const RegisterView(),
         binding: RegisterBinding()),
-    GetPage(name: Routes.HOME, page: () => HomeView(), binding: HomeBinding()),
+    GetPage(
+        name: Routes.HOME,
+        page: () => const HomeView(),
+        binding: HomeBinding()),
   ];
 }

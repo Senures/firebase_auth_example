@@ -33,7 +33,8 @@ class HomeView extends GetView<HomeController> {
           ),
         ),
         centerTitle: true,
-        title: Container(
+        title: Text(controller.fireStoreService.bloglist.length.toString()),
+        /*  Container(
           //color: Colors.red,
           width: 80,
           height: 60,
@@ -46,7 +47,7 @@ class HomeView extends GetView<HomeController> {
               activeColor: Colors.white,
             ),
           ),
-        ),
+        ), */
         actions: [
           InkWell(
             onTap: () {
@@ -141,6 +142,7 @@ class HomeView extends GetView<HomeController> {
               crossAxisCount: 2,
               mainAxisSpacing: 4,
               crossAxisSpacing: 4,
+              itemCount: controller.fireStoreService.bloglist.length,
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () {
@@ -171,7 +173,7 @@ class HomeView extends GetView<HomeController> {
   }
 }
 
-class Tile extends StatelessWidget {
+class Tile extends GetView<HomeController> {
   const Tile({
     Key? key,
     required this.index,
@@ -188,13 +190,15 @@ class Tile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final child = Container(
-      color: backgroundColor ?? Colors.red,
+      // color: backgroundColor ?? Colors.red,
       height: extent,
       child: Column(
         children: [
           Expanded(
             child: Image.network(
-              "https://images.unsplash.com/photo-1538370965046-79c0d6907d47?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDR8fHBsYW5ldHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
+              controller.fireStoreService.bloglist[index].img
+                      .replaceAll("\"", "") ??
+                  "https://images.unsplash.com/photo-1545156521-77bd85671d30?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cGxhbmV0fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
               fit: BoxFit.cover,
             ),
           ),
