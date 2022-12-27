@@ -1,8 +1,10 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:firebase_example/modules/create_blog/create_blog.dart';
+import 'package:firebase_example/modules/detail/detail_view.dart';
 import 'package:firebase_example/modules/home/home_controller.dart';
 import 'package:firebase_example/shared/init/sharredpref_manager.dart';
 import 'package:flutter/material.dart';
@@ -135,37 +137,43 @@ class HomeView extends GetView<HomeController> {
               ),
             ),
           ),
-          Expanded(
-            child: MasonryGridView.count(
-              primary: false,
-              shrinkWrap: true,
-              crossAxisCount: 2,
-              mainAxisSpacing: 4,
-              crossAxisSpacing: 4,
-              itemCount: controller.fireStoreService.bloglist.length,
-              itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () {
-                    log(((index % 5 + 1) * 100).toString());
-                  },
-                  child: Tile(
-                    index: index,
-                    extent: (index % 3 + 2) * 100 > 300
-                        ? 250
-                        : (index % 3 + 2) * 100,
+          Obx(() => controller.blogLoading.value
+              ? Center(child: CircularProgressIndicator())
+              : Expanded(
+                  child: MasonryGridView.count(
+                    primary: false,
+                    shrinkWrap: true,
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 4,
+                    crossAxisSpacing: 4,
+                    itemCount: controller.bloglist?.length,
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        onTap: () async {
+                          controller.deleteBlogDoc(index);
+                        },
+                        child: Tile(
+                          controller: controller,
+                          index: index,
+                          extent: (index % 3 + 2) * 100 > 300
+                              ? 250
+                              : (index % 3 + 2) * 100,
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
-            ),
-          )
+                )),
         ],
       ),
       floatingActionButton: Pref.getBool("isEditor") == true
           ? FloatingActionButton(
-              backgroundColor: const Color(0xff02102A),
-              child: const FaIcon(FontAwesomeIcons.pen),
+              backgroundColor: Colors.white,
+              child: const FaIcon(
+                FontAwesomeIcons.pen,
+                color: Color(0xff02102A),
+              ),
               onPressed: () {
-                Get.to(CreateBlogView());
+                Get.toNamed(Routes.ADDBLOG);
               },
             )
           : const SizedBox(),
@@ -173,19 +181,21 @@ class HomeView extends GetView<HomeController> {
   }
 }
 
-class Tile extends GetView<HomeController> {
+class Tile extends StatelessWidget {
   const Tile({
     Key? key,
     required this.index,
     this.extent,
     this.backgroundColor,
     this.bottomSpace,
-  }) : super(key: key);
+    required this.controller,
+  });
 
   final int index;
   final double? extent;
   final double? bottomSpace;
   final Color? backgroundColor;
+  final HomeController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -196,13 +206,13 @@ class Tile extends GetView<HomeController> {
         children: [
           Expanded(
             child: Image.network(
-              controller.fireStoreService.bloglist[index].img
-                      .replaceAll("\"", "") ??
+              controller.bloglist![index].img ??
                   "https://images.unsplash.com/photo-1545156521-77bd85671d30?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cGxhbmV0fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
               fit: BoxFit.cover,
             ),
           ),
-          Text("TARİH"),
+          Text(controller.bloglist![index].title,
+              style: TextStyle(color: Colors.white)),
         ],
       ),
     );

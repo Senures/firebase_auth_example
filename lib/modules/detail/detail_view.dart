@@ -1,30 +1,15 @@
+import 'package:firebase_example/modules/home/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class DetailView extends StatelessWidget {
+class DetailView extends GetView<HomeController> {
   const DetailView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      /*   appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        leading: const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          child: FaIcon(
-            FontAwesomeIcons.arrowLeft,
-            color: Colors.black,
-          ),
-        ),
-        centerTitle: true,
-        title: Text("Gamification:Article",
-            style: GoogleFonts.oswald(
-                color: Colors.black,
-                fontSize: 23,
-                fontWeight: FontWeight.w500)),
-      ), */
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: SingleChildScrollView(
@@ -47,9 +32,14 @@ class DetailView extends StatelessWidget {
                               color: Colors.black,
                               fontSize: 23,
                               fontWeight: FontWeight.w500)),
-                      const FaIcon(
-                        FontAwesomeIcons.solidBookmark,
-                        color: Color(0xff044C5D),
+                      InkWell(
+                        onTap: () {
+                          
+                        },
+                        child: const FaIcon(
+                          FontAwesomeIcons.trash,
+                          color: Color(0xff044C5D),
+                        ),
                       )
                     ],
                   ),
