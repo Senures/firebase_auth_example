@@ -35,7 +35,7 @@ class HomeView extends GetView<HomeController> {
           ),
         ),
         centerTitle: true,
-        title: Text(controller.fireStoreService.bloglist.length.toString()),
+        //  title: Text(controller.analyticsService.analytics.),
         /*  Container(
           //color: Colors.red,
           width: 80,
@@ -53,9 +53,10 @@ class HomeView extends GetView<HomeController> {
         actions: [
           InkWell(
             onTap: () {
-              FirebaseAuth.instance.signOut();
+              controller.analyticsService.logEvent();
+              /*   FirebaseAuth.instance.signOut();
               Pref.remove("isEditor");
-              Get.offAndToNamed(Routes.LOGIN);
+              Get.offAndToNamed(Routes.LOGIN); */
             },
             child: Padding(
               padding: const EdgeInsets.all(14.0),
@@ -96,7 +97,7 @@ class HomeView extends GetView<HomeController> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 20),
             child: Container(
-              height: 45,
+              height: 40,
               //color: Colors.red,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
@@ -111,7 +112,7 @@ class HomeView extends GetView<HomeController> {
                         alignment: Alignment.center,
                         width: 100,
                         margin: const EdgeInsets.symmetric(
-                          horizontal: 10,
+                          horizontal: 15,
                         ),
                         decoration: BoxDecoration(
                             color: controller.currentIndex == index
