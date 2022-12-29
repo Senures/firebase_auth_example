@@ -4,6 +4,7 @@ import 'package:firebase_example/modules/auth/register/register_bindings.dart';
 import 'package:firebase_example/modules/auth/register/register_view.dart';
 import 'package:firebase_example/modules/create_blog/create_blog.dart';
 import 'package:firebase_example/modules/create_blog/create_blog_bindings.dart';
+import 'package:firebase_example/modules/detail/detail_view.dart';
 import 'package:firebase_example/modules/home/home_bindings.dart';
 import 'package:firebase_example/modules/home/home_view.dart';
 import 'package:get/get.dart';
@@ -23,6 +24,10 @@ class AppPages {
     GetPage(
         name: Routes.HOME,
         page: () => const HomeView(),
+        binding: HomeBinding()),
+    GetPage(
+        name: Routes.DETAIL,
+        page: () => const DetailView(),
         binding: HomeBinding()),
     GetPage(
         name: Routes.ADDBLOG,

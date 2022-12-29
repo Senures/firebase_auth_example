@@ -1,10 +1,4 @@
-import 'dart:developer';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
-import 'package:firebase_example/modules/create_blog/create_blog.dart';
-import 'package:firebase_example/modules/detail/detail_view.dart';
 import 'package:firebase_example/modules/home/home_controller.dart';
 import 'package:firebase_example/shared/init/sharredpref_manager.dart';
 import 'package:flutter/material.dart';
@@ -53,15 +47,15 @@ class HomeView extends GetView<HomeController> {
         actions: [
           InkWell(
             onTap: () {
-              controller.analyticsService.logEvent();
-              /*   FirebaseAuth.instance.signOut();
+              //   controller.analyticsService.logEvent();
+              FirebaseAuth.instance.signOut();
               Pref.remove("isEditor");
-              Get.offAndToNamed(Routes.LOGIN); */
+              Get.offAndToNamed(Routes.LOGIN);
             },
             child: Padding(
               padding: const EdgeInsets.all(14.0),
               child: FaIcon(
-                FontAwesomeIcons.magnifyingGlass,
+                FontAwesomeIcons.heart,
                 color: Colors.grey.shade300,
               ),
             ),
@@ -139,25 +133,32 @@ class HomeView extends GetView<HomeController> {
             ),
           ),
           Obx(() => controller.blogLoading.value
-              ? Center(child: CircularProgressIndicator())
+              ? const Center(child: CircularProgressIndicator())
               : Expanded(
                   child: MasonryGridView.count(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
                     primary: false,
                     shrinkWrap: true,
                     crossAxisCount: 2,
-                    mainAxisSpacing: 4,
-                    crossAxisSpacing: 4,
+                    mainAxisSpacing: 5,
+                    crossAxisSpacing: 10,
                     itemCount: controller.bloglist?.length,
                     itemBuilder: (context, index) {
                       return InkWell(
                         onTap: () async {
-                          controller.deleteBlogDoc(index);
+                          var data = {
+                            "title": controller.bloglist![index].title,
+                            "img": controller.bloglist![index].img
+                          };
+                          Get.toNamed(Routes.DETAIL, parameters: data);
+                          //   controller.deleteBlogDoc(index);
+                          //silme işlemi
                         },
                         child: Tile(
                           controller: controller,
                           index: index,
                           extent: (index % 3 + 2) * 100 > 300
-                              ? 250
+                              ? 280
                               : (index % 3 + 2) * 100,
                         ),
                       );
@@ -201,19 +202,54 @@ class Tile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final child = Container(
+      //margin: const EdgeInsets.symmetric(horizontal: 10),
       // color: backgroundColor ?? Colors.red,
       height: extent,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            child: Image.network(
-              controller.bloglist![index].img ??
-                  "https://images.unsplash.com/photo-1545156521-77bd85671d30?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cGxhbmV0fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
-              fit: BoxFit.cover,
+            flex: 3,
+            child: Container(
+              //   margin: EdgeInsets.symmetric(horizontal: 7),
+              width: 300,
+              // color: Colors.red,
+              child: Image.network(
+                controller.bloglist![index].img ??
+                    "https://images.unsplash.com/photo-1545156521-77bd85671d30?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cGxhbmV0fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
+                fit: BoxFit.cover,
+              ),
             ),
           ),
-          Text(controller.bloglist![index].title,
-              style: TextStyle(color: Colors.white)),
+          Expanded(
+            flex: 1,
+            child: Container(
+              // color: Colors.amber,
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(controller.bloglist![index].title,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      style: GoogleFonts.asap(
+                          color: Colors.white,
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold)),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  const Text(
+                    "24 Jun 2021 . 12 min read",
+                    style: TextStyle(
+                        color: Colors.white54,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500),
+                  )
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );

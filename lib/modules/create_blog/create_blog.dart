@@ -5,7 +5,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 class CreateBlogView extends GetView<CreateBlogController> {
-  const CreateBlogView({super.key});
+
+  const CreateBlogView({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

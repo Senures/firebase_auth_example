@@ -5,93 +5,143 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DetailView extends GetView<HomeController> {
+  /* final String title;
+  final String content;
+  final String date;
+  final String category;
+  final String img;
+  final String read_count; */
   const DetailView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    var title = Get.parameters["title"];
+    var img = Get.parameters["img"];
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SafeArea(
-                child: Container(
-                  height: 70,
-                  // color: Colors.red,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        backgroundColor: const Color(0xff02102A),
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Stack(
                     children: [
-                      const FaIcon(
-                        FontAwesomeIcons.arrowLeft,
-                        color: Colors.black,
+                      Container(
+                        width: 500,
+                        height: 430,
+                        //  color: Colors.blue,
                       ),
-                      Text("Gamification:Article",
-                          style: GoogleFonts.oswald(
-                              color: Colors.black,
-                              fontSize: 23,
-                              fontWeight: FontWeight.w500)),
-                      InkWell(
-                        onTap: () {
-                          
-                        },
-                        child: const FaIcon(
-                          FontAwesomeIcons.trash,
-                          color: Color(0xff044C5D),
+                      Container(
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        width: MediaQuery.of(context).size.width,
+                        height: 380,
+                        decoration: BoxDecoration(
+                            //   color: Colors.red,
+                            borderRadius: BorderRadius.circular(30)),
+                        child: Image.network(
+                          img.toString(),
+                          fit: BoxFit.cover,
                         ),
+                      ),
+                      Positioned(
+                          left: 20,
+                          top: 30,
+                          child: InkWell(
+                            onTap: () {
+                              Get.back();
+                            },
+                            child: FaIcon(
+                              FontAwesomeIcons.arrowLeft,
+                              color: Colors.white,
+                              size: 30,
+                            ),
+                          )),
+                      Positioned(
+                          bottom: 100,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 15),
+                            //  color: Colors.amber,
+                            width: 400,
+                            //height: 100,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  width: 300,
+                                  //height: 50,
+                                  //    color: Colors.red,
+
+                                  child: Text(
+                                    title.toString(),
+                                    style: GoogleFonts.asap(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 28,
+                                        color: Colors.white),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  "Tarih   .   Kategori",
+                                  style: GoogleFonts.asap(
+                                      fontWeight: FontWeight.w300,
+                                      fontSize: 16,
+                                      color: Colors.white),
+                                ),
+                              ],
+                            ),
+                          )),
+                      Obx(
+                        () => Positioned(
+                            right: 20,
+                            bottom: 20,
+                            child: InkWell(
+                              onTap: () {
+                                controller.favorilereEkleme();
+                              },
+                              child: CircleAvatar(
+                                backgroundColor: Colors.grey.shade100,
+                                maxRadius: 31,
+                                child: FaIcon(
+                                  controller.isFavori.value
+                                      ? FontAwesomeIcons.heartCircleCheck
+                                      : FontAwesomeIcons.heart,
+                                  size: 30,
+                                  color: controller.isFavori.value
+                                      ? Colors.red
+                                      : Colors.grey,
+                                ),
+                              ),
+                            )),
                       )
                     ],
                   ),
-                ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Text(
+                      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                      style: GoogleFonts.asap(
+                          color: Colors.white,
+                          letterSpacing: .5,
+                          fontSize: 18,
+                          fontWeight: FontWeight.normal),
+                    ),
+                  )
+                  //Text("${title?.capitalized()}")
+                ],
               ),
-              Container(
-                width: 320,
-                height: 200,
-                //color: Colors.amber,
-                child: Text("The Future of\nGamfication in\nEducation",
-                    style: GoogleFonts.oswald(
-                        letterSpacing: .5,
-                        color: Colors.black,
-                        fontSize: 42,
-                        fontWeight: FontWeight.w700)),
-              ),
-              Text("By:Joshua Hong    |    December 14,2022",
-                  style: GoogleFonts.oswald(
-                      letterSpacing: .5,
-                      color: Colors.black54,
-                      fontSize: 16,
-                      fontWeight: FontWeight.normal)),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                child: Text(
-                    "Lorem Ipsum is  also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum",
-                    style: GoogleFonts.oswald(
-                        color: Colors.black,
-                        fontSize: 18,
-                        fontWeight: FontWeight.normal)),
-              ),
-              Center(
-                child: Container(
-                  height: 150,
-                  color: Colors.amber,
-                  child: Image.network(
-                      "https://images.unsplash.com/photo-1585241936939-be4099591252?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OXx8YXJ0aWNsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                child: Text(
-                    "Lorem Ipsum is  also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum",
-                    style: GoogleFonts.oswald(
-                        color: Colors.black,
-                        fontSize: 18,
-                        fontWeight: FontWeight.normal)),
-              ),
-            ],
+            ),
           ),
-        ),
-      ),
-    );
+        ));
+  }
+}
+
+extension StringExtension on String {
+  String capitalized() {
+    if (this.isEmpty) return this;
+    return this[0].toUpperCase() + this.substring(1);
   }
 }
