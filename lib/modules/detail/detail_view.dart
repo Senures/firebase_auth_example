@@ -51,14 +51,14 @@ class DetailView extends GetView<HomeController> {
                             onTap: () {
                               Get.back();
                             },
-                            child: FaIcon(
+                            child: const FaIcon(
                               FontAwesomeIcons.arrowLeft,
                               color: Colors.white,
                               size: 30,
                             ),
                           )),
                       Positioned(
-                          bottom: 100,
+                          bottom: 70,
                           child: Container(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 10, vertical: 15),
@@ -85,7 +85,7 @@ class DetailView extends GetView<HomeController> {
                                   height: 10,
                                 ),
                                 Text(
-                                  "Tarih   .   Kategori",
+                                  "24.12.2022  .   Cosmos",
                                   style: GoogleFonts.asap(
                                       fontWeight: FontWeight.w300,
                                       fontSize: 16,
@@ -104,12 +104,12 @@ class DetailView extends GetView<HomeController> {
                               },
                               child: CircleAvatar(
                                 backgroundColor: Colors.grey.shade100,
-                                maxRadius: 31,
+                                maxRadius: 27,
                                 child: FaIcon(
                                   controller.isFavori.value
                                       ? FontAwesomeIcons.heartCircleCheck
                                       : FontAwesomeIcons.heart,
-                                  size: 30,
+                                  size: 26,
                                   color: controller.isFavori.value
                                       ? Colors.red
                                       : Colors.grey,

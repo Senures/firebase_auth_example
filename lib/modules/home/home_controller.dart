@@ -47,7 +47,8 @@ class HomeController extends GetxController {
     var user = await FirebaseAuth.instance.currentUser?.uid;
     FirebaseFirestore.instance
         .collection('users')
-        .doc(user)
-        .set({"fav": "sss"});
+        .doc(user);
+        
+        
   }
 }
